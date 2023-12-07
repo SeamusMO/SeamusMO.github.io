@@ -1,14 +1,1360 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Menu Manager</title>
- <style>
-  <link rel="stylesheet" href="style.css">
-</style>
-  <H6>Menu Manager</H6>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Home - made with softr.io</title>
+    
+
+    <link rel="icon" type="image/x-icon" href="https://softr-prod.imgix.net/applications/8f7af9fb-a550-425d-b327-48195c193a5f/assets/c870e998-d79a-414a-8577-5bb4e5b7464d.svg?rnd=1622671497214"/>
+
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
+
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+            overflow: hidden;
+        }
+
+        html, body {
+            overscroll-behavior: none;
+            height: 100%
+        }
+
+        p, h1, h2, h3, h4, h5, small {
+            white-space: pre-line;
+        }
+
+        .preview-header {
+            background-color: #fff;
+            z-index: 300;
+            position: fixed;
+            padding: 0;
+            box-shadow: 0 3px 4px -2px #25252508;
+            width: 100%;
+        }
+
+        .preview-header .toolbar {
+            font-size: 12px;
+            width: 100%;
+            height: 56px;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .preview-header__screens {
+            margin-right: 250px;
+        }
+
+        .preview-header .update-banner {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            background-color: #212121;
+            height: 40px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0;
+            text-align: left;
+            color: #FFFFFF;
+        }
+
+        .preview-header .update-banner .refresh-button {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0;
+            text-align: center;
+            color: #5A5D63;
+            border-radius: 4px;
+            border: 0;
+            background-color: #F0F0F4;
+            margin-left: 16px;
+        }
+
+        .preview-header .update-banner .refresh-button:focus {
+            outline: none;
+        }
+
+        .preview-header__view--selection label {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 20px;
+            text-align: left;
+            color: #383B3D;
+            padding-left: 16px;
+            margin-bottom: 0;
+            padding-right: 8px;
+
+        }
+
+        .preview-header__view--selection {
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-header__view--selection .choices,
+        .preview-header__view--selection .choices__inner {
+            width: 256px;
+            height: 32px;
+            min-height: 32px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .preview-header__view--selection .ph-info {
+            font-size: 16px;
+            color: #AEAEB5;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .preview-header__shareable {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview_header__shareable--link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0;
+            text-align: center;
+            color: #5A5D63 !important;
+            margin-right: 16px;
+            cursor: pointer;
+            padding: 4px 8px;
+            text-decoration: none !important;
+        }
+
+        .preview_header__shareable--link:hover {
+            background-color: #FCEED9;
+            border-radius: 8px;
+        }
+
+        .preview_header__shareable--link i {
+            padding-right: 8px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .preview-header__close {
+            border-left: 1px solid #F0F0F4;
+            padding-left: 12px;
+        }
+
+        i.desktop,
+        i.desktop-active {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        i.desktop-active {
+            display: none;
+        }
+
+        i.tablet,
+        i.tablet-active {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        i.tablet-active {
+            display: none;
+        }
+
+        i.mobile,
+        i.mobile-active {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        i.mobile-active {
+            display: none;
+        }
+
+        .icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon i {
+            color: #5A5D63;
+        }
+
+        .icon.active {
+            border-bottom: 2px solid #EEA941;
+        }
+
+        .icon.active i {
+            color: #212121;
+        }
+
+        .icon.active i.mobile-active {
+            display: inline-block;
+        }
+
+        .icon.active i.mobile {
+            display: none;
+        }
+
+        .icon.active i.tablet-active {
+            display: inline-block;
+        }
+
+        .icon.active i.tablet {
+            display: none;
+        }
+
+        .icon.active i.desktop-active {
+            display: inline-block;
+        }
+
+        .icon.active i.desktop {
+            display: none;
+        }
+
+        .iframe-container {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+            position: relative;
+            background-color: #343a40 !important;
+            height: 100%;
+        }
+
+        .full-screen-preview__iframe {
+            width: 100%;
+            background-color: white;
+            border: 0;
+            height: calc(100% - 48px);
+            margin-top: 56px;
+            position: absolute;
+            border: none;
+        }
+
+        .iframe-preview--mobile {
+            width: 375px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+        }
+
+        .iframe-preview--tablet {
+            width: 768px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+        }
+
+        .show {
+            display: inline-block;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .choices__list.choices__list--dropdown {
+            border-radius: 8px!important;
+            border: 0!important;
+            box-shadow: 0px 2px 4px 0px rgba(33, 33, 33, 0.1)!important;
+        }
+
+        .choices .choices__list .user {
+            display: flex;
+            align-items: center;
+        }
+
+        .choices .choices__list .empty-user-list {
+            display: flex;
+            align-items: center;
+            background-color: #EDF3FB;
+            border: 1px solid #C9DAF2;
+            padding: 8px 16px 8px 8px;
+            border-radius: 8px;
+            cursor: default;
+            margin: 8px 24px 24px 24px;
+            width: 208px;
+        }
+
+        .choices .choices__list .empty-user-list i {
+            margin: 4px 12px 44px 4px;
+            color: #4D85D5;
+            font-size: 16px;
+        }
+
+        .choices .choices__list .empty-user-list a {
+            color: #4D85D5;
+        }
+
+        .choices__item.choices__item--selectable {
+            background: transparent;
+        }
+
+        .choices__item.choices__item--choice.is-selected {
+            font-weight: 600;
+        }
+
+        .choices__item.choices__item--choice.is-highlighted {
+            background: #F0F0F4;
+        }
+
+        .choices__item.choices__item--choice:hover {
+            background: #F0F0F4;
+        }
+
+        .choices__item.choices__item--choice.has-no-results {
+            padding-left: 10px;
+        }
+
+        .choices .choices__list .user .avatar {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid;
+            border-radius: 50%;
+            margin: 8px 16px 8px 16px;
+            color: #212121;
+            overflow: hidden;
+        }
+
+        .choices .choices__list.choices__list--single {
+            padding: 5px 10px 2px 10px;
+        }
+
+        .choices .choices__list.choices__list--single .user .email {
+            max-width: 185px;
+            width: 185px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-wrap: nowrap;
+        }
+
+        .choices .choices__list.choices__list--single .user .avatar {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin: 0;
+            margin-right: 4px;
+            color: #AEAEB5;
+            border: none;
+        }
+
+        .choices__heading {
+            font-weight: 600;
+            font-size: 11px;
+            padding: 0px;
+            border-bottom: none;
+            color: #AEAEB5;
+        }
+
+        /* Customize the dropdown icon using Phosphor Icons */
+
+        .choices[data-type*=select-one]::after {
+            content: "\e9fe"; /* Replace with the desired Phosphor Icon Unicode */
+            font-family: "Phosphor"; /* Use the Phosphor Icons font-family */
+            font-size: 16px;
+            color: #AEAEB5;
+            border: 0;
+            position: absolute;
+            top: 9px;
+            right: 23px;
+        }
+
+        /* Style the dropdown icon when the dropdown is open */
+        .choices[data-type*=select-one].is-open::after {
+            top: 25px;
+            transform: rotate(180deg);
+            right: 8px;
+            margin: 0;
+        }
+
+        .choices .choices__list .user .info {
+            max-width: 150px;
+            width: 150px;
+        }
+
+        .choices .choices__list .user .info.non-logged-in {
+            max-width: 190px;
+            width: 190px;
+            margin-left: 15px;
+            padding: 10px 0px 10px 0px;
+        }
+
+        .choices .choices__list .user .avatar .image {
+            width: 40px;
+            height: 40px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .choices .choices__list .user .name {
+            color: #212121;
+        }
+
+        .choices .choices__list .is-selected .user .name {
+            max-width: 130px;
+        }
+
+        .choices .choices__list .user .email {
+            color: #5A5D63;
+            padding-right: 4px;
+        }
+
+        .choices .choices__list .user .role {
+            color: #383B3D;
+            font-size: 12px;
+            background-color: #F0F0F4;
+            display: inline-block;
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+
+        .choices .choices__list .user .check {
+            font-size: 16px;
+            position: relative;
+            right: 4px;
+            height: 16px;
+            width: 16px;
+        }
+
+        .choices[data-type*=select-one] .choices__input {
+            width: 208px;
+            padding: 8px 8px 8px 20px;
+            border: 1px solid #F0F0F4;
+            background-color: #FAFAFC;
+            background-image: url("https://assets.softr-files.com/assets/images/magnifying-glass-tilted-left.svg");
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 8px 10px;
+            border-radius: 8px;
+            margin: 16px 24px 8px 24px;
+            text-indent: 8px;
+        }
+
+        .choices__item {
+            background-color: #fff;
+            transition: .25s;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .choices__item.is-highlighted {
+            background-color: #F0F0F4;
+        }
+
+        .choices__group {
+            margin: 0px 24px 0px 24px;
+        }
+
+        .choices__list--dropdown .choices__item,
+        .choices__list[aria-expanded] .choices__item {
+            font-size: 13px;
+            padding: 0px;
+            border-radius: 4px;
+            margin: 8px;
+        }
+
+        .ph-check.check.non-logged-in {
+            margin-top: 6px;
+        }
+
+        .user .ph-check.check {
+            top: 5px;
+            position: absolute!important;
+            margin-right: 10px;
+        }
+
+        .non-logged-in-separator {
+            width: 208px;
+            height: 1px;
+            background: #E5E5EA;
+            margin: 8px 24px 16px 24px;
+        }
+
+        .close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 28px;
+        }
+
+        .close:focus {
+            outline: none;
+        }
+
+        .tooltip-inner {
+            max-width: 300px !important;
+            font-size: 12px;
+            padding: 8px;
+            background: #28192D;
+            color: #fff;
+            border: 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .bs-tooltip-auto[x-placement^=bottom] .arrow::before,
+        .bs-tooltip-bottom .arrow::before {
+            border-bottom-color: #28192D;
+        }
+
+        .viewSelect {
+            width: 245px;
+        }
+
+        /*Confirmation Modal styles*/
+        #userConfirmationModal .modal-dialog {
+            max-width: 520px;
+        }
+
+        #userConfirmationModal .modal-content {
+            box-shadow: 0 24px 48px 0 #2121210A;
+            border-radius: 16px;
+            border: 0;
+            padding: 32px;
+
+        }
+
+        #userConfirmationModal .modal-header {
+            border: 0;
+            padding: 0;
+            margin-bottom: 16px;
+        }
+
+        #userConfirmationModal .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: 0;
+            text-align: left;
+            white-space: normal;
+            color: #212121;
+        }
+
+        #userConfirmationModal .modal-body {
+            color: #5A5D63;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0;
+            text-align: left;
+            padding: 0;
+            padding-right: 4px;
+            white-space: normal;
+        }
+
+        #userConfirmationModal .modal-body p {
+            white-space: normal;
+            padding: 0;
+            margin: 0;
+        }
+
+        #userConfirmationModal .modal-footer {
+            border: 0;
+            padding: 0;
+            margin-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        #userConfirmationModal .remember-checkbox label {
+            color: #383B3D;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 23px;
+            letter-spacing: 0;
+            text-align: left;
+
+        }
+
+        #userConfirmationModal .submit-btn {
+            background-color: #EEA941;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0;
+            text-align: center;
+            border: 0;
+            color: #28192D;
+
+        }
+
+        /*Confirmation Modal styles end */
+
+        /*Toaster Modal styles */
+        #toast-container {
+            bottom: 56px;
+            left: 25px;
+            position: absolute;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            max-width: 400px;
+            width: 400px;
+        }
+
+
+        div#toast-container > div.toast-body {
+            background-color: #FCEFEF;
+            background-image: url('https://softr-assets-eu-shared.s3.eu-central-1.amazonaws.com/studio/blocks/assets/toaster-close-icon.svg') !important;
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            color: #383B3D;
+            max-width: 400px;
+            width: 400px;
+            border-radius: 12px;
+            opacity: 1;
+            border: 0;
+            padding-left: 45px;
+        }
+
+        #toast-container .toast-body .message {
+            max-width: 300px !important;
+            width: 300px !important;
+        }
+
+        #toast-container .toast-body .close {
+            top: 5px;
+            right: 10px;
+            font-size: 18px;
+        }
+        @media (max-width: 910px) {
+            .preview-header {
+                display: none;
+            }
+        }
+        @media (max-width: 576px) {
+            div#toast-container > div.toast-body {
+                max-width: 320px !important;
+                width: 320px !important;
+            }
+
+            #toast-container .toast-body .message {
+                max-width: 250px !important;
+                width: 250px !important;
+            }
+        }
+
+        /*Toaster Modal styles end */
+
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            window.addEventListener('message', (event) => {
+                const message = event.data;
+                if (message.name === 'user-sign-out-triggered') {
+                    choices.setChoiceByValue(applicationUsers[0].value);
+                    window.history.pushState(null, '', '/' + window.location.search);
+                }
+            });
+
+            const iframe = document.querySelector(".full-screen-preview__iframe");
+            const bannerForUpdate = document.querySelector(".update-banner");
+            const links = document.querySelectorAll(".icon");
+            const refreshButton = document.getElementById('refresh-button');
+            const shareableLink = document.querySelector('.preview_header__shareable--link');
+            const selectElement = document.getElementById('viewSelect');
+            const noChoicesTemplate = `
+                            <div class="empty-user-list">
+                                <i class="ph ph-info"></i>
+                                <div class="message">
+                                    Your application doesn't have registered users.
+                                    <br>
+                                    <a href="https://docs.softr.io/user-management/pxnkp9H3qyEVMF6XUceqnj/add-users-to-a-softr-app/kBJGPeH635j7HDW4NYoDDs"
+                                    target="_blank">Learn more.</a>
+                                </div>
+                            </div>
+                    `;
+            let lastUpdateResponse = {
+                updated: false,
+                givenVersion: 0,
+                newestVersion: 0
+            };
+
+            let selectedUserEmail = '';
+            let applicationUsers = [];
+
+            setSelectedScreenSize();
+            initTooltip();
+            getUsers();
+            listenToNewUpdates();
+
+            iframe.addEventListener('load', function () {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                const intervalId = setInterval(() => {
+                    updateLinksInIframe(iframeDocument);
+                }, 1000);
+
+                // Cleanup function to clear the interval when the iframe is unloaded
+                iframe.addEventListener('unload', function () {
+                    clearInterval(intervalId);
+                });
+            });
+
+            const choices = new Choices(selectElement, {
+                searchEnabled: true,
+                shouldSort: false,
+                allowHTML: true,
+                itemSelectText: '',
+                renderChoiceLimit: -1,
+                searchResultLimit: 100,
+                choices: applicationUsers,
+                renderSelectedChoices: 'always',
+                searchPlaceholderValue: 'Search users',
+                noChoicesText: noChoicesTemplate,
+                fuseOptions: {
+                    threshold: 0.1,
+                    distance: 1000
+                },
+                classNames: {
+                    containerOuter: 'choices',
+                    containerInner: 'choices__inner',
+                    input: 'choices__input',
+                    list: 'choices__list',
+                    listItem: 'choices__list--single',
+                },
+                callbackOnCreateTemplates: function (template) {
+                    return {
+                        ...template,
+                        choice: (event, data) => {
+                            const {classNames} = event;
+                            if(!data.selected && choices?.getValue()?.value === data.label) {
+                                data.selected = true;
+                            }
+
+                            const {imageUrl, icon, name, email, role} = data.customProperties;
+                            return template(
+                                email === 'No-users' ?
+                                    noChoicesTemplate :
+                                     (email === 'separator' ? `<div class="non-logged-in-separator choices__group" data-group data-id="${data.id}" data-value="${data.value}" role="group"><div class="choices__heading"></div></div>` :
+
+                                        `
+                                             <div class="${classNames.item} ${classNames.itemChoice} ${data.selected ? classNames.selectedState : ''}" data-select-text="${this.config.itemSelectText}" data-choice ${data.disabled ? 'data-choice-disabled aria-disabled="true"' : 'data-choice-selectable'} data-id="${data.id}" data-value="${data.value}" ${data.groupId > 0 ? 'role="treeitem"' : 'role="option"'}>
+                                                <div class="user">
+                                                ${icon ?
+                                    `<div class="avatar">
+                                                       ${imageUrl ? `<div class="image" style="background-image: url('${imageUrl}')"></div>` : ''}
+                                                       ${!imageUrl && icon ? `<i class="ph ${icon}"></i>` : ''}
+                                                    </div>
+                                                    <div class="info">
+                                                        ${name ? `<div class="name">${name}</div>` : ''}
+                                                        ${email ? `<div class="email">${email}</div>` : ''}
+                                                        ${role ? `<div class="role">${role}</div> ` : ''}
+                                                    </div>`
+                                    :
+                                    `<div class="info non-logged-in"> ${email ? `<div class="email">${email}</div>` : ''}</div>`
+                                }
+                                                    ${
+                                    data.selected
+                                        ? (icon ? '<i class="ph ph-check check"></i>' : '<i class="ph ph-check check non-logged-in"></i>')
+                                        : ''
+                                }
+                                                </div>
+                                              </div>
+                                    `), classNames, data);
+                        },
+                        item: (event, data) => {
+                            const {classNames} = event;
+                            const {imageUrl, icon, name, email, role} = data.customProperties;
+                            return template(
+                                `
+                                                <div class="user">
+                                                    <div class="avatar">
+                                                       ${email === 'Non-logged-in user' ? ` <i class="ph ph-globe"></i>` : `<i class="ph ph-user"></i>`}
+                                                    </div>
+                                                    <div class="info">
+                                                        ${email ? `<div class="email">${email}</div>` : ''}
+                                                    </div>
+                                                </div>
+
+                                    `, classNames, data);
+                        }
+                    };
+                },
+            });
+
+            refreshButton.addEventListener('click', () => {
+                reloadPreview();
+            });
+
+            shareableLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                const currentURL = window.location.href;
+                navigator.clipboard.writeText(currentURL)
+                    .then(() => {
+                        console.log('URL copied to clipboard:', currentURL);
+                        setTimeout(() => $('.preview_header__shareable--link').tooltip('hide'), 1000);
+                    })
+                    .catch((error) => {
+                        console.error('Failed to copy URL to clipboard:', error);
+                        setTimeout(() => $('.preview_header__shareable--link').tooltip('hide'), 1000);
+                    });
+            });
+
+            function reloadPreview() {
+                //setting device type to URL, that BE can get it and handle visibility checks
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('device', localStorage.getItem('preview-screen-size'));
+
+                fetch('/studio/refresh' + window.location.search, {method: 'POST'})
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("HTTP error " + response.status);
+                        }
+
+                        // will reload window
+                        window.location.search = urlParams;
+                    })
+                    .catch(error => {
+                        console.error('API request error:', error);
+                    });
+            }
+
+            function listenToNewUpdates() {
+                let previewVersion = getCookie('previewVersion');
+                let url = `/studio/updated`;
+
+                if (previewVersion?.length) {
+                    url += `?version=${previewVersion}`;
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.updated) {
+                            console.log('Data is updated:', data);
+                            lastUpdateResponse = data;
+                            bannerForUpdate.style.display = 'flex';
+                            iframe.style.marginTop = '96px'
+                            return;
+                        }
+
+                        setTimeout(listenToNewUpdates, 5000);
+                    })
+                    .catch(error => {
+                        console.error('API request error:', error);
+                        setTimeout(listenToNewUpdates, 10000);
+                    });
+            }
+
+            function setScreenActiveState(target) {
+
+
+                iframe.classList.remove("iframe-preview--mobile");
+                iframe.classList.remove("iframe-preview--tablet");
+
+                links.forEach(function (link) {
+                    link.classList.remove("active");
+                });
+                target.classList.add("active");
+
+                if (target.classList.contains("desktop")) {
+                    localStorage.setItem('preview-screen-size', 'desktop')
+                } else if (target.classList.contains("tablet")) {
+                    iframe.classList.add("iframe-preview--tablet");
+                    localStorage.setItem('preview-screen-size', 'tablet')
+                } else if (target.classList.contains("mobile")) {
+                    iframe.classList.add("iframe-preview--mobile");
+                    localStorage.setItem('preview-screen-size', 'mobile')
+                }
+                reloadPreview();
+            }
+
+            function setSelectedScreenSize() {
+                const screenSizes = ['mobile', 'tablet', 'desktop'];
+                const screenSizeClassPrefix = 'iframe-preview--';
+
+                iframe.classList.remove(...screenSizes.map(size => screenSizeClassPrefix + size));
+                links.forEach(link => link.classList.remove('active'));
+
+                const screenSize = localStorage.getItem('preview-screen-size');
+                if (screenSize && screenSizes.includes(screenSize)) {
+                    iframe.classList.add(screenSizeClassPrefix + screenSize);
+                    document.querySelector('.' + screenSize).classList.add('active');
+                }
+            }
+
+            document.addEventListener("click", function (event) {
+                const target = event.target;
+                if (target.closest(".icon")) {
+                    event.preventDefault();
+                    setScreenActiveState(target.closest(".icon"));
+                }
+            });
+
+            selectElement.addEventListener('change', function (e) {
+                selectedUserEmail = this.value;
+                handleSelectChange();
+            });
+
+            function handleSubmit() {
+                const checkboxValue = document.querySelector('.custom-checkbox input')?.checked;
+                if (checkboxValue) {
+                    localStorage.setItem('isConfirmationModalDisabled', 'true');
+                }
+
+                onUserSelect();
+
+                $('#userConfirmationModal').modal('hide');
+            }
+
+            function handleSelectChange() {
+                const isConfirmationModalDisabled = localStorage.getItem('isConfirmationModalDisabled');
+                if (isConfirmationModalDisabled !== 'true') {
+                    $('#userConfirmationModal').modal('show');
+                } else {
+                    onUserSelect();
+                }
+            }
+
+            $('#userConfirmationModal').on('show.bs.modal', function (e) {
+                const btn = document.querySelector('.submit-btn');
+                selectElement.removeEventListener('change', handleSelectChange);
+                btn.removeEventListener('click', handleSubmit);
+                btn.addEventListener('click', handleSubmit);
+
+
+                $('.modal-body').html(`
+                            <p>You are about to preview the latest version of your app, including unpublished changes, as
+                            <strong>${selectedUserEmail}</strong>.</p>
+                        <br>
+                        <p>Please note that any actions you perform while previewing, such as adding, editing, or deleting data,
+                            will modify the data in your data source.</p>
+                        `)
+            })
+
+            const userSearchInputHanlder = function(event) {
+                if (!event.target.value) {
+                    choices.setChoices(applicationUsers, 'value', 'label', true);
+                }
+            }
+
+            function loadApplicationUsers() {
+                let url = "/studio/users";
+                fetch(url).then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                }).then((jsonData) => {
+                    loadDbUsers(jsonData)
+                })
+                    .catch(function (err) {
+                        console.log("An error occurred while fetching the API data.", err);
+                        showToast();
+                    });
+            }
+
+            function loadCachedPreviewUsers() {
+                let apiUrl = '/studio/users/load-cached-users'
+                fetch(apiUrl)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('ERROR preloading cache');
+                        }
+                        return response.json();
+                    })
+                    .then((jsonData) => {
+                        loadCachedUsers(jsonData);
+                    })
+                    .catch((error) => {
+                        console.log('ERROR loading application users', error);
+                    });
+            }
+
+            function getUsers() {
+                loadApplicationUsers();
+                //TODO:Uncomment
+                //loadCachedPreviewUsers();
+            }
+
+            function loadCachedUsers(jsonData) {
+                setTimeout(() => applyUserData(jsonData), 1000);
+            }
+
+            function loadDbUsers(jsonData) {
+                applyUserData(jsonData);
+            }
+
+            function applyUserData(jsonData) {
+                const result = jsonData.map(({
+                                                 email,
+                                                 name = '',
+                                                 id,
+                                                 role = '',
+                                                 imageUrl = '',
+                                                 isLoggedInUser = false
+                                             }) => ({
+                    value: email,
+                    id,
+                    isLoggedInUser,
+                    customProperties: {
+                        name,
+                        email,
+                        role,
+                        imageUrl,
+                        icon: "ph-user",
+                        id
+                    }
+                }));
+
+                applicationUsers = [
+                    {
+                        label: '',
+                        id: '',
+                        choices: [
+                            {
+                                value: 'Non-logged-in user',
+                                id: 'anonymous',
+                                customProperties: {
+                                    name: '',
+                                    email: 'Non-logged-in user',
+                                    role: '',
+                                    image: '',
+                                    icon: ''
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        label: '',
+                        id: '',
+                        choices: [
+                            {
+                                value: 'separator',
+                                id: 'anonymous',
+                                customProperties: {
+                                    name: '',
+                                    email: 'separator',
+                                    role: '',
+                                    image: '',
+                                    icon: ''
+                                }
+                            }
+                        ]
+                    },
+                    jsonData.length ?
+                        {
+                            label: 'USERS',
+                            id: 'users',
+                            choices: result
+
+                        } :
+                        {
+                            label: 'USERS',
+                            id: 'users',
+                            selectable: false,
+                            choices: [
+                                {
+                                    value: 'No-users',
+                                    id: 'anonymous',
+                                    customProperties: {
+                                        name: '',
+                                        email: 'No-users',
+                                        role: '',
+                                        image: '',
+                                        icon: ''
+                                    }
+                                }
+                            ]
+                        }
+                ];
+
+                choices.clearChoices();
+                choices.setChoices(applicationUsers);
+
+                selectElement.addEventListener(
+                    'showDropdown', () => {
+                        // by default first element or last hovered element is always highlighted
+                        // we need to remove that highlight
+                        document.querySelectorAll('.choices__list > .is-highlighted').forEach(item => item.classList.remove('is-highlighted'));
+                        // this event listener is needed for cases when user remove search text with cmd/ctrl+A
+                        // in that case search event is not triggered
+                        document.querySelector('.choices__list .choices__input').addEventListener('input', userSearchInputHanlder);
+                    });
+
+                selectElement.addEventListener(
+                    'hideDropdown', (event) => {
+                        document.querySelector('.choices__list .choices__input').removeEventListener('input', userSearchInputHanlder);
+                        if (choices.input.value) {
+                            choices.clearInput();
+                            choices.clearChoices();
+                            choices.setChoices(applicationUsers, 'value', 'label', true);
+                        }
+                    });
+
+                selectElement.addEventListener(
+                    'search',
+                    function(event) {
+                        if (event.detail.value) {
+                            const filteredUsers = [applicationUsers[0],
+                                {
+                                    label: 'USERS',
+                                    choices: applicationUsers[2].choices.filter((choice) =>
+                                        choice.value.toLowerCase().includes(event.detail.value.toLowerCase()) ||
+                                        choice.customProperties?.name?.toLowerCase().includes(event.detail.value.toLowerCase())
+                                    )
+                                }];
+                            choices.setChoices(filteredUsers, 'value', 'label', true);
+                        } else {
+                            choices.setChoices(applicationUsers, 'value', 'label', true);
+                        }
+                    },
+                    false,
+                );
+
+                function setSelectedUser() {
+                    const [nonLoggedInUser, separator, otherUsers] = applicationUsers;
+                    const selectedUserId = choices.getValue()?.customProperties?.id;
+
+                    if (selectedUserId) {
+                        const [_, otherUsers = {choices: []}] = applicationUsers;
+                        const selectedUser = otherUsers.choices.find(user => user.customProperties?.id === selectedUserId);
+
+                        choices.setChoiceByValue(selectedUser?.value);
+                    } else {
+                        const loggedInUser = otherUsers.choices.find((user) => user.isLoggedInUser);
+                        if (loggedInUser) {
+                            choices.setChoiceByValue(loggedInUser.value);
+                        } else {
+                            choices.setChoiceByValue(nonLoggedInUser.choices[0].value);
+                        }
+                    }
+                }
+
+                setSelectedUser();
+
+            }
+
+            function onUserSelect() {
+                const [nonLoggedInUser, separator, otherUsers = {choices: []}] = applicationUsers;
+                const selectedUser = otherUsers.choices.find(user => user.value === selectedUserEmail);
+                let userId = selectedUser?.id || 'anonymous';
+
+                let url = "/studio/impersonate/" + userId;
+                fetch(url).then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    if (userId === 'anonymous') {
+                        const currentUrl = new URL(window.location.href);
+                        const queryParams = currentUrl.search;
+                        location.href = `${window.location.origin}${queryParams}`;
+                        return;
+                    }
+                    location.reload();
+                }).catch(error => {
+                    console.log("An error occurred: ", error);
+                    showToast();
+                });
+            }
+
+            function initTooltip() {
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                })
+            }
+
+
+            function showToast() {
+                $('.toast').toast('show')
+            }
+
+            function getCookie(name) {
+                let cookieArr = document.cookie.split(";");
+                for (let i = 0; i < cookieArr.length; i++) {
+                    let cookiePair = cookieArr[i].split("=");
+                    if (name === cookiePair[0].trim()) {
+                        return cookiePair[1];
+                    }
+                }
+                return null;
+            }
+
+            function updateLinksInIframe(iframeDocument) {
+                const elements = iframeDocument.querySelectorAll('a');
+                elements.forEach(tag => {
+                    let href = tag.getAttribute('href');
+                    const target = tag.getAttribute('target');
+                    // Exclude anchors that have blob URLs (used for file downloads) from being affected by 'show-toolbar=true'
+                    if (href && !href.includes('show-toolbar=true') && !href.startsWith('blob:')) {
+                        if (href.startsWith('#') || href.startsWith('/') || href.includes(window.location.hostname)) {
+                            if (href === '#') {
+                                href = '/';
+                            }
+                            // append the query param if NOT "scroll to section" action.
+                            if (!href.includes('#')) {
+                                const newHref = href + (href.includes('?') ? '&' : '?') + 'show-toolbar=true';
+                                tag.setAttribute('href', newHref);
+                            }
+                        }
+                        // Set target from self to parent if NOT "scroll to section" action
+                        if ((!target || target === '_self') && !href.includes('#')) {
+                            tag.setAttribute('target', '_parent');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Appcues -->
+    <script type="text/javascript">var Appcues = Appcues || [];</script>
+    <script src="https://fast.appcues.com/104147.js"></script>
+    <!-- Appcues -->
+
 </head>
+
 <body>
-<p>Menu Manager is the next </p>
-   <img src="data:image/jpeg;base64,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"
+
+<!-- Send user id to Appcues -->
+<script>
+    const studioUserId = 'bba8890c-2141-4573-bb49-7f642c52c56b';
+    if (studioUserId && Appcues.identify) {
+        Appcues.identify(studioUserId,{});
+    }
+</script>
+<!-- Send user id to Appcues -->
+
+<div class="fixed-top preview-header">
+    <div class="update-banner" style="display: none">
+        <span>Your app has been updated. Refresh to see the latest changes</span>
+        <button class="refresh-button" id="refresh-button">Refresh</button>
+    </div>
+    <div class="position-relative w-100 toolbar">
+        <div class="preview-header__view--selection">
+            <label for="viewSelect">Preview as:</label>
+            <select id="viewSelect"></select>
+            <i class="ph ph-info " data-toggle="tooltip"
+               data-placement="bottom"
+               data-html="true"
+               title="You are previewing the latest version of the app, including unpublished changes.<br><br>
+                  Please note that actions will affect your real data.">
+            </i>
+        </div>
+
+        <div class="preview-header__screens">
+            <a class="icon desktop active">
+                <i class="ph ph-desktop desktop"></i>
+                <i class="ph ph-desktop desktop-active"></i>
+            </a>
+            <a class="icon tablet">
+                <i class="ph ph-device-tablet-speaker tablet"></i>
+                <i class="ph ph-device-tablet-speaker mobile-active"></i>
+            </a>
+            <a class="icon mobile">
+                <i class="ph ph-device-mobile-camera mobile"></i>
+                <i class="ph ph-device-mobile-camera mobile-active"></i>
+            </a>
+        </div>
+
+        <div class="preview-header__shareable">
+            <a class="preview_header__shareable--link"
+               data-trigger="click"
+               title="Copied!"
+               data-toggle="tooltip">
+                <i class="ph ph-link"></i>
+                Get shareable link
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--Confirmation modal-->
+<div id="userConfirmationModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalCenterTitle">
+                    Preview as a user
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ph ph-x-circle"></i>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <div class="custom-control custom-checkbox remember-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customControlInline">
+                    <label class="custom-control-label" for="customControlInline">Don’t show this again</label>
+                </div>
+
+                <button type="button" class="btn submit-btn">
+                    Ok, I understand
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Toaster-->
+<div aria-live="polite" aria-atomic="true">
+    <div id="toast-container" class="toast" data-delay="4000">
+        <div class="toast-body">
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <i class="ph ph-x-circle"></i>
+            </button>
+            <div class="message">Something went wrong, please try again.</div>
+        </div>
+    </div>
+</div>
+
+<div class="iframe-container">
+    <iframe id="preview-iframe" class="full-screen-preview__iframe" src="https://davis6702.preview.softr.app/?t=1701962655998" allowfullscreen></iframe>
+</div>
+
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
