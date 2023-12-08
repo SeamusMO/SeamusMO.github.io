@@ -1,53 +1,43 @@
-<!DOCTYPE html>
+       <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant SaaS</title>
-    <!-- Add your CSS styles or link to an external stylesheet -->
-    <style>
-        <link rel="stylesheet" href="style.css">
-    </style>
+    <title>Restaurant Online Order Management</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
-        <h1>Restaurant SaaS</h1>
-        <nav>
-            <ul>
-                <li><a href="#website-templates">Website Templates</a></li>
-                <li><a href="#price-suggestions">Price Suggestions</a></li>
-                <li><a href="#traffic-data">Traffic Data</a></li>
-                <li><a href="#qr-scanner">QR Code Scanner</a></li>
-            </ul>
-        </nav>
+        <h1>Restaurant Order Management</h1>
     </header>
 
-    <section id="website-templates">
-        <h2>Website Templates</h2>
-        <p>Create a stunning restaurant website easily with our customizable templates.</p>
-        <!-- Add your template details and options here -->
+    <section id="menu">
+        <!-- Display restaurant menu items with prices and Add to Cart buttons -->
+        <div class="menu-item">
+            <h2>Burger</h2>
+            <p>$10.00</p>
+            <button class="add-to-cart" onclick="addToCart('Burger', 10.00)">Add to Cart</button>
+        </div>
+
+        <!-- Repeat similar blocks for other menu items -->
     </section>
 
-    <section id="price-suggestions">
-        <h2>Price Suggestions</h2>
-        <p>Optimize your menu prices based on popular items with our intelligent pricing tool.</p>
-        <!-- Add pricing suggestions and customization options here -->
-    </section>
+    <section id="cart">
+        <h2>Shopping Cart</h2>
+        <!-- Display items added to the cart -->
+        <ul id="cart-items"></ul>
 
-    <section id="traffic-data">
-        <h2>Traffic Data</h2>
-        <p>Track your website's performance and analyze user traffic to make informed decisions.</p>
-        <!-- Add traffic data metrics and insights here -->
-    </section>
-
-    <section id="qr-scanner">
-        <h2>QR Code Scanner</h2>
-        <p>Enable customers to order from their table using our convenient QR code scanner system.</p>
-        <!-- Add QR code scanner details and integration instructions here -->
+        <!-- Display total amount and checkout button -->
+        <p>Total: $<span id="total">0.00</span></p>
+        <button onclick="checkout()">Checkout</button>
     </section>
 
     <footer>
-        <p>&copy; 2023 Restaurant SaaS. All rights reserved.</p>
+        <p>&copy; 2023 Your Restaurant Name</p>
     </footer>
+
+    <!-- Include any necessary JavaScript scripts -->
+    <script src="script.js"></script>
 </body>
 </html>
